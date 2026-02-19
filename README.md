@@ -33,27 +33,32 @@ The pipeline is structured into three layers:
 
 ![Data Flow Diagram](docs/diagrams/DATA%20FLOW%20DIAGRAM1.drawio.png)
 
+
+
 ---
 
 ## Data Modeling
 
 ### Star Schema Overview
 
+
 ### Private Vehicles
 
-![Private Vehicles Star Schema](docs/diagrams/NAME1.png)
+![Private Star Schema](docs/diagrams/DATA%20MODEL.drawio.png)
 
 ### Public Vehicles
 
-![Public Vehicles Star Schema](docs/diagrams/NAME2.png)
+![Public Star Schema](docs/diagrams/DATA%20MODEL2.drawio.png)
 
 ### Motorcycles
 
-![Motorcycles Star Schema](docs/diagrams/NAME3.png)
+![Motorcycles Star Schema](docs/diagrams/DATA%20MODEL%203.drawio.png)
 
 ### EV Aggregation
 
-![EV Star Schema](docs/diagrams/NAME4.png)
+![EV Star Schema](docs/diagrams/DATA%20MODEL%204.drawio.png)
+
+
 
 
 ### Fact Tables
