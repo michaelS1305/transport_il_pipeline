@@ -12,7 +12,26 @@ The system follows a Medallion Architecture (Bronze → Silver → Gold) to inge
 
 ### Data Flow
 
-<!-- Data Flow Diagram will be inserted here -->
+The pipeline is structured into three layers:
+
+### Bronze
+- Raw ingestion from Ministry of Transport APIs (REST / CSV format)
+- Data stored as-is in Delta tables
+
+### Silver
+- Data cleaning and normalization
+- Type casting and schema standardization
+- Deduplication and validation
+- Business key consistency checks
+
+### Gold
+- Dimensional modeling using Star Schema
+- Fact and Dimension tables
+- Referential integrity validation
+- Foreign key match rate validation (100%)
+
+
+![Data Flow Diagram](docs/diagrams/DATA%20FLOW%20DIAGRAM1.drawio.png)
 
 ---
 
@@ -20,7 +39,41 @@ The system follows a Medallion Architecture (Bronze → Silver → Gold) to inge
 
 ### Star Schema Overview
 
-<!-- Star Schema Diagram will be inserted here -->
+### Private Vehicles
+
+![Private Vehicles Star Schema](docs/diagrams/NAME1.png)
+
+### Public Vehicles
+
+![Public Vehicles Star Schema](docs/diagrams/NAME2.png)
+
+### Motorcycles
+
+![Motorcycles Star Schema](docs/diagrams/NAME3.png)
+
+### EV Aggregation
+
+![EV Star Schema](docs/diagrams/NAME4.png)
+
+
+### Fact Tables
+- `fact_private_vehicles`
+- `fact_public_vehicles`
+- `fact_motorcycles`
+- `fact_ev_counts_by_area`
+
+### Dimension Tables
+- `dim_manufacturer`
+- `dim_vehicle_type`
+- `dim_fuel_type`
+- `dim_color`
+- `dim_ownership`
+
+Each fact table enforces a defined grain and was validated using:
+- Row count vs distinct business key checks
+- Foreign key match rate validation
+- Duplicate detection and fan-out join resolution
+
 
 ---
 
@@ -40,3 +93,15 @@ The system follows a Medallion Architecture (Bronze → Silver → Gold) to inge
 - SQL
 - Delta Lake
 - REST API
+
+## Orchestration
+
+The pipeline is orchestrated using Databricks Jobs with task dependencies between Bronze, Silver, and Gold layers.
+
+---
+
+## Future Improvements
+
+- Implement Slowly Changing Dimensions (SCD)
+- Add automated data quality monitoring
+- Build BI dashboard (Power BI / Tableau)
