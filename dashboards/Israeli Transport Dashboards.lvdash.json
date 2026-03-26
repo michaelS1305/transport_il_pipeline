@@ -1,0 +1,313 @@
+{
+  "datasets": [
+    {
+      "name": "4bdc1fd4",
+      "displayName": "EV_per_districrt_pct",
+      "queryLines": [
+        " WITH Car_Count AS(\r\n",
+        "    SELECT district_nm, SUM(vehicle_count) AS vehicle_amount\r\n",
+        "    FROM transport_lakehouse.gold.fact_ev_counts_by_area\r\n",
+        "    GROUP BY district_nm\r\n",
+        "    ORDER BY vehicle_amount DESC\r\n",
+        " )\r\n",
+        "\r\n",
+        " SELECT \r\n",
+        " district_nm,\r\n",
+        " ROUND(100.0 * vehicle_amount / SUM(vehicle_amount) OVER (), 2) AS percentage\r\n",
+        " FROM Car_Count\r\n",
+        "\r\n",
+        "\r\n"
+      ],
+      "catalog": "transport_lakehouse",
+      "schema": "default"
+    },
+    {
+      "name": "14f840b2",
+      "displayName": "Vehicle Ownership Distribution Analysis",
+      "queryLines": [
+        "WITH ownership_counts AS (\r\n",
+        "    SELECT fpv.ownership_key, COUNT(fpv.car_num) AS car_amount\r\n",
+        "    FROM transport_lakehouse.gold.fact_private_vehicles fpv\r\n",
+        "    GROUP BY fpv.ownership_key\r\n",
+        "\r\n",
+        "    UNION ALL\r\n",
+        "\r\n",
+        "    SELECT fm.ownership_key, COUNT(fm.car_num) AS car_amount\r\n",
+        "    FROM transport_lakehouse.gold.fact_motorcycles fm\r\n",
+        "    GROUP BY fm.ownership_key\r\n",
+        "),\r\n",
+        "final_counts AS (\r\n",
+        "    SELECT\r\n",
+        "        o.ownership_key,\r\n",
+        "        o.ownership,\r\n",
+        "        SUM(oc.car_amount) AS total_car_amount\r\n",
+        "    FROM ownership_counts oc\r\n",
+        "    LEFT JOIN transport_lakehouse.gold.dim_ownership o\r\n",
+        "        ON o.ownership_key = oc.ownership_key\r\n",
+        "    GROUP BY o.ownership_key, o.ownership\r\n",
+        ")\r\n",
+        "SELECT\r\n",
+        "    ownership,\r\n",
+        "    ROUND(100.0 * total_car_amount / SUM(total_car_amount) OVER (), 2) AS percentage\r\n",
+        "FROM final_counts\r\n",
+        "ORDER BY total_car_amount DESC"
+      ]
+    },
+    {
+      "name": "0acc3e62",
+      "displayName": "Vehicle Growth Analysis Over Time",
+      "queryLines": [
+        "WITH Count_vehicles AS (\r\n",
+        "  SELECT\r\n",
+        "    YEAR(road_entry_dt) AS road_entry_dt,\r\n",
+        "    COUNT(car_num) AS total_new_cars\r\n",
+        "  FROM\r\n",
+        "    transport_lakehouse.gold.fact_motorcycles\r\n",
+        "  GROUP BY\r\n",
+        "    YEAR(road_entry_dt)\r\n",
+        "  UNION ALL\r\n",
+        "  SELECT\r\n",
+        "    YEAR(road_entry_dt) AS road_entry_dt,\r\n",
+        "    COUNT(car_num) AS total_new_cars\r\n",
+        "  FROM\r\n",
+        "    transport_lakehouse.gold.fact_private_vehicles\r\n",
+        "  GROUP BY\r\n",
+        "    YEAR(road_entry_dt)\r\n",
+        "),\r\n",
+        "Final_Counts AS (\r\n",
+        "  SELECT\r\n",
+        "    road_entry_dt,\r\n",
+        "    SUM(total_new_cars) AS total_new_cars\r\n",
+        "  FROM\r\n",
+        "    Count_vehicles\r\n",
+        "  GROUP BY\r\n",
+        "    road_entry_dt\r\n",
+        ")\r\n",
+        "SELECT\r\n",
+        "  road_entry_dt,\r\n",
+        "  COALESCE(\r\n",
+        "    ROUND(\r\n",
+        "      100.0\r\n",
+        "        * (total_new_cars - LAG(total_new_cars) OVER (ORDER BY road_entry_dt))\r\n",
+        "        / LAG(total_new_cars) OVER (ORDER BY road_entry_dt),\r\n",
+        "      2\r\n",
+        "    ),\r\n",
+        "    0\r\n",
+        "  ) AS growth_pct\r\n",
+        "FROM\r\n",
+        "  Final_Counts\r\n",
+        "ORDER BY\r\n",
+        "  road_entry_dt DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "202699cd",
+      "displayName": "EV dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "ev-distribution-by-district",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "4bdc1fd4",
+                  "fields": [
+                    {
+                      "name": "percentage",
+                      "expression": "`percentage`"
+                    },
+                    {
+                      "name": "district_nm",
+                      "expression": "`district_nm`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showDescription": true,
+                "description": "Distribution of electric cars in Israel by regions",
+                "title": "EV Distribution by District",
+                "showTitle": true
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "percentage",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "district_nm",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "1431957f",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "f532a4e1",
+      "displayName": "Ownership dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "vehicle-ownership-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "14f840b2",
+                  "fields": [
+                    {
+                      "name": "percentage",
+                      "expression": "`percentage`"
+                    },
+                    {
+                      "name": "ownership",
+                      "expression": "`ownership`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showDescription": true,
+                "description": "Distribution of ownerships of cars in Israel",
+                "title": "Vehicle Ownership Distribution",
+                "showTitle": true
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "percentage",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "ownership",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 9,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "882afbd2",
+      "displayName": "new car dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "vehicle-growth-over-time",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0acc3e62",
+                  "fields": [
+                    {
+                      "name": "road_entry_dt",
+                      "expression": "`road_entry_dt`"
+                    },
+                    {
+                      "name": "growth_pct",
+                      "expression": "`growth_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Vehicle Growth Over Time",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "New car on the Israeli road yearly growth percentage"
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "road_entry_dt",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "growth_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": false
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
