@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-This project implements an end-to-end data engineering pipeline in Databricks using public transportation datasets from data.gov.il.
+This project covers the full analytics lifecycle: raw data ingestion, transformation, dimensional modeling, data quality validation, orchestration, and 
+
+dashboarding in Databricks using public transportation datasets from data.gov.il.
 
 The system follows a Medallion Architecture (Bronze → Silver → Gold) to ingest, clean, and model the data into analytics-ready tables.
 
@@ -131,7 +133,7 @@ The following dashboards demonstrate how the curated data model is leveraged to 
 ![EV Distribution](dashboards/ev_distribution_district.png)
 
 **Description:**  
-Shows the distribution of electric vehicles across districts ןמ Israel.
+Shows the distribution of electric vehicles across districts in Israel.
 
 **Key Insights:**
 - Identifies regions with higher EV adoption
