@@ -91,6 +91,16 @@ Each fact table enforces a defined grain and was validated using:
 
 ---
 
+## Data Volume Considerations
+
+To accommodate the limitations of the Databricks Community Edition, ingestion was capped at ~75K records per dataset.
+
+This approach allowed for reliable pipeline execution while preserving data diversity for analytical use cases.
+
+In a production-grade environment, the pipeline can be scaled to process full datasets using distributed compute and optimized ingestion strategies (e.g., streaming or batch partitioning).
+
+---
+
 ## Technologies Used
 
 - Databricks
