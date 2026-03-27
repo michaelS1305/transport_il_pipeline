@@ -105,8 +105,89 @@ The pipeline is orchestrated using Databricks Jobs with task dependencies betwee
 
 ---
 
+
+---
+
+## Dashboards
+
+>  Dashboards built on Databricks SQL using the Gold Layer
+
+The following dashboards demonstrate how the curated data model is leveraged to generate actionable insights from raw transportation data.
+
+---
+
+### Electric Vehicles Distribution by District
+
+![EV Distribution](dashboards/ev_distribution_district.png)
+
+**Description:**  
+Shows the distribution of electric vehicles across districts ןמ Israel.
+
+**Key Insights:**
+- Identifies regions with higher EV adoption
+- Highlights geographic gaps in EV penetration
+- Supports infrastructure planning (e.g., charging stations)
+
+---
+
+### Ownership Type Distribution
+
+![Ownership Distribution](dashboards/ownership_distribution.png)
+
+**Description:**  
+Breakdown of vehicles by ownership type in Israel.
+
+**Key Insights:**
+- Compares private vs leasing ownership
+- Reveals dominant ownership patterns
+- Useful for market and policy analysis
+
+---
+
+### Yearly Growth of New Vehicles
+
+![Vehicle Growth](dashboards/vehicle_growth_yearly.png)
+
+**Description:**  
+Tracks the number of new vehicles entering the road in Israel each year.
+
+**Key Insights:**
+- Identifies growth trends over time
+- Detects peak registration periods
+- Indicates overall market expansion
+
+---
+
+### Fuel Type Distribution
+
+![Fuel Distribution](dashboards/fuel_distribution.png)
+
+**Description:**  
+Distribution of vehicles by fuel type in Israel.
+
+**Key Insights:**
+- Shows dominance of fuel types (gasoline, electric, hybrid)
+- Highlights transition toward cleaner energy
+- Supports environmental analysis
+
+---
+
+### Public Transport Cancellation Rate
+
+![Cancellation Rate](dashboards/public_transport_cancellations.png)
+
+**Description:**  
+Displays yearly cancellation rates of public transport in Israel.
+
+**Key Insights:**
+- Measures service reliability over time
+- Identifies years with higher cancellation rates
+- Useful for performance monitoring
+
+---
+
 ## Future Improvements
 
 - Implement Slowly Changing Dimensions (SCD)
 - Add automated data quality monitoring
-- Build BI dashboard (Power BI / Tableau)
+- Enhance dashboards with Power BI / Tableau integration
