@@ -99,6 +99,61 @@
         "ORDER BY\r\n",
         "  road_entry_dt DESC"
       ]
+    },
+    {
+      "name": "24a09c4a",
+      "displayName": "Vehicle Fuel Type Distribution Summary",
+      "queryLines": [
+        "WITH Count_Cars(\r\n",
+        "  SELECT fuel_type_key,\r\n",
+        "  COUNT(car_num) AS Car_Count\r\n",
+        "  FROM transport_lakehouse.gold.fact_private_vehicles\r\n",
+        "  GROUP BY fuel_type_key\r\n",
+        "\r\n",
+        "  UNION ALL\r\n",
+        "\r\n",
+        "  SELECT fuel_type_key,\r\n",
+        "  COUNT(car_num) AS car_Count\r\n",
+        "  FROM transport_lakehouse.gold.fact_motorcycles\r\n",
+        "  GROUP BY fuel_type_key\r\n",
+        "\r\n",
+        "),Final_Count(\r\n",
+        "\r\n",
+        "  SELECT cc.fuel_type_key,\r\n",
+        "  dft.fuel_type_nm,\r\n",
+        "  SUM(car_Count) AS Total_Cars\r\n",
+        "  FROM Count_Cars cc\r\n",
+        "  LEFT JOIN transport_lakehouse.gold.dim_fuel_type dft\r\n",
+        "  ON cc.fuel_type_key = dft.fuel_type_key\r\n",
+        "  GROUP BY cc.fuel_type_key, dft.fuel_type_nm\r\n",
+        "\r\n",
+        ")\r\n",
+        "SELECT \r\n",
+        "fuel_type_nm,\r\n",
+        "ROUND(100.0 * total_cars / SUM(total_cars) OVER (), 2) AS percentage\r\n",
+        "FROM Final_Count\r\n",
+        "ORDER BY fuel_type_key\r\n"
+      ]
+    },
+    {
+      "name": "65b6bd92",
+      "displayName": "Annual Vehicle Transport Cancellation Summary",
+      "queryLines": [
+        "SELECT \r\n",
+        "  prod_year,\r\n",
+        "  COUNT(*) AS total_transport,\r\n",
+        "  SUM(CASE WHEN canceled_dt IS NOT NULL THEN 1 ELSE 0 END) AS canceled_count,\r\n",
+        "  SUM(CASE WHEN canceled_dt IS NULL THEN 1 ELSE 0 END) AS not_canceled_count,\r\n",
+        "  ROUND(\r\n",
+        "    100.0 * SUM(CASE WHEN canceled_dt IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*),\r\n",
+        "    2\r\n",
+        "  ) AS pct_canceled\r\n",
+        "FROM transport_lakehouse.gold.fact_public_vehicles\r\n",
+        "WHERE vehicle_type_key != 2 AND vehicle_type_key != 3 AND vehicle_type_key != 5 AND vehicle_type_key != 20\r\n",
+        "GROUP BY prod_year\r\n",
+        "ORDER BY prod_year;\r\n",
+        "\r\n"
+      ]
     }
   ],
   "pages": [
@@ -297,6 +352,136 @@
             "y": 0,
             "width": 12,
             "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "18d848cf",
+      "displayName": "Feul dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "vehicle-fuel-type-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "24a09c4a",
+                  "fields": [
+                    {
+                      "name": "percentage",
+                      "expression": "`percentage`"
+                    },
+                    {
+                      "name": "fuel_type_nm",
+                      "expression": "`fuel_type_nm`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Vehicle Fuel Type Distribution",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Fuel type destribution in Israel"
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "percentage",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "fuel_type_nm",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 8,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "16688ca8",
+      "displayName": "Buses dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "sum-of-percentage-canceled-by-production-year",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "65b6bd92",
+                  "fields": [
+                    {
+                      "name": "prod_year",
+                      "expression": "`prod_year`"
+                    },
+                    {
+                      "name": "sum(pct_canceled)",
+                      "expression": "SUM(`pct_canceled`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Sum of Percentage Canceled public buses by Production Year",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "a trend of cancled punlic buses in Israel by production year "
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "prod_year",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(pct_canceled)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 7
           }
         }
       ],
