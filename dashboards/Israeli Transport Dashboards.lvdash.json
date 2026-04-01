@@ -285,7 +285,7 @@
           "position": {
             "x": 1,
             "y": 0,
-            "width": 9,
+            "width": 11,
             "height": 8
           }
         }
@@ -360,7 +360,7 @@
     },
     {
       "name": "18d848cf",
-      "displayName": "Feul dashboard",
+      "displayName": "Fuel dashboard",
       "layout": [
         {
           "widget": {
