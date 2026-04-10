@@ -198,8 +198,191 @@ Displays yearly cancellation rates of public transport in Israel.
 
 ---
 
+---
+
+## Monitoring & Observability
+
+As part of the project, I implemented a monitoring and observability layer to improve the pipeline’s reliability, visibility, and overall production-readiness.
+
+The monitoring system tracks execution across the **Bronze**, **Silver**, and **Gold** layers, and provides insights into both pipeline performance and data quality.
+
+---
+
+### What was added
+
+- Centralized pipeline monitoring table for all layers  
+- Dedicated fact quality monitoring table for Gold views  
+- Integrated logging across all pipeline notebooks  
+- Data quality checks for fact tables  
+
+---
+
+### Pipeline Monitoring
+
+A centralized monitoring table was created to track pipeline activity across all layers.
+
+Each pipeline run logs:
+
+- `dataset_name` – the dataset being processed  
+- `layer` – Bronze / Silver / Gold  
+- `run_start_time` and `run_end_time`  
+- `status` – SUCCESS / FAILED  
+- `rows_ingested`  
+- `error_message` (when relevant)  
+
+This enables:
+
+- Tracking failed runs  
+- Monitoring execution trends over time  
+- Comparing performance between datasets  
+- Understanding pipeline behavior across layers  
+
+---
+
+### Fact Quality Monitoring
+
+In addition to operational monitoring, I implemented a dedicated data quality monitoring layer for Gold fact views.
+
+Each fact run is evaluated using the following checks:
+
+- **Missing keys** – number of rows with NULL foreign keys  
+- **Duplication check** – detection of duplicate records  
+- **Key null ratio (fill rate)** – percentage of valid keys  
+
+These metrics are stored in a separate monitoring table and provide visibility into the integrity of the dimensional model.
+
+---
+
+## Monitoring & Observability
+
+As part of the project, I implemented a monitoring and observability layer to improve the pipeline’s reliability, visibility, and overall production-readiness.
+
+The monitoring system tracks execution across the **Bronze**, **Silver**, and **Gold** layers, and provides insights into both pipeline performance and data quality.
+
+---
+
+### What was added
+
+- Centralized pipeline monitoring table for all layers  
+- Dedicated fact quality monitoring table for Gold views  
+- Integrated logging across all pipeline notebooks  
+- Data quality checks for fact tables  
+
+---
+
+### Pipeline Monitoring
+
+A centralized monitoring table was created to track pipeline activity across all layers.
+
+Each pipeline run logs:
+
+- `dataset_name` – the dataset being processed  
+- `layer` – Bronze / Silver / Gold  
+- `run_start_time` and `run_end_time`  
+- `status` – SUCCESS / FAILED  
+- `rows_ingested`  
+- `error_message` (when relevant)  
+
+This enables:
+
+- Tracking failed runs  
+- Monitoring execution trends over time  
+- Comparing performance between datasets  
+- Understanding pipeline behavior across layers  
+
+---
+
+---
+
+### Fact Quality Monitoring
+
+In addition to operational monitoring, I implemented a dedicated data quality monitoring layer for Gold fact views.
+
+Each fact run is evaluated using the following checks:
+
+- **Missing keys** – number of rows with NULL foreign keys  
+- **Duplication check** – detection of duplicate records  
+- **Key null ratio (fill rate)** – percentage of valid keys  
+
+These metrics are stored in a separate monitoring table and provide visibility into the integrity of the dimensional model.
+
+---
+
+### Monitoring Architecture
+
+The monitoring layer is based on two main components:
+
+1. **Pipeline Monitoring Table**  
+   Tracks execution across Bronze, Silver, and Gold layers  
+
+2. **Fact Quality Monitoring Table**  
+   Tracks data quality metrics for Gold fact views  
+
+Both components are integrated into the pipeline notebooks and updated at the end of each run.
+
+---
+## Pipeline Monitoring Dashboard
+
+### Rows Ingested Over Time
+
+![Rows Ingested Over Time](monitor dashboard/Rows Ingested Over Time.png)
+
+This time-series visualization tracks how many rows were ingested during each pipeline run.
+
+It helps identify:
+
+- Trends in data ingestion volume  
+- Unexpected spikes or drops  
+- Pipeline stability over time  
+
+This is particularly useful for monitoring changes in source data or ingestion behavior.
+
+---
+
+### Rows Ingested by Dataset and Layer
+
+![Rows Ingested by Dataset and Layer](monitor dashboard/Rows Ingested by Dataset and Layer.png)
+
+This chart displays the volume of data processed per dataset across different pipeline layers.
+
+It allows comparison between:
+
+- Data volume across datasets  
+- Differences between Bronze, Silver, and Gold layers  
+- Potential data drops or inconsistencies between layers  
+
+This is useful for validating pipeline completeness and ensuring data flows correctly between stages.
+
+---
+
+### Error Messages Count by Layer
+
+![Error Messages by Layer](monitor dashboard/Error Messages Count by Layer.png)
+
+This visualization shows the number of error messages across each pipeline layer (Bronze, Silver, Gold).
+
+It helps identify where failures are occurring in the pipeline and whether issues are concentrated in a specific layer.
+
+A zero value across all layers indicates stable pipeline execution without failures.
+
+---
+
+### Average Processing Time by Dataset
+
+![Average Processing Time](monitor dashboard/Average Processing Time by Dataset.png)
+
+This chart shows the average processing time (in seconds) for each dataset across pipeline layers.
+
+It helps identify:
+
+- Performance bottlenecks  
+- Heavy datasets that require optimization  
+- Differences in processing time between layers  
+
+This visualization is useful for performance tuning and understanding pipeline efficiency.
+
 ## Future Improvements
 
 - Implement Slowly Changing Dimensions (SCD)
-- Add automated data quality monitoring
+- Improve automated data quality monitoring
 - Enhance dashboards with Power BI / Tableau integration
