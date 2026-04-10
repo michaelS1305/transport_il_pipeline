@@ -270,7 +270,7 @@ Both components are integrated into the pipeline notebooks and updated at the en
 
 ### Rows Ingested Over Time
 
-![Rows Ingested Over Time](monitor dashboard/Rows Ingested Over Time.png)
+![Rows Ingested Over Time](monitor_dashboard/Rows_Ingested_Over_Time.png)
 
 This time-series visualization tracks how many rows were ingested during each pipeline run.
 
@@ -286,7 +286,7 @@ This is particularly useful for monitoring changes in source data or ingestion b
 
 ### Rows Ingested by Dataset and Layer
 
-![Rows Ingested by Dataset and Layer](monitor dashboard/Rows Ingested by Dataset and Layer.png)
+![Rows Ingested by Dataset and Layer](monitor_dashboard/Rows_Ingested_by_Dataset_and_Layer.png)
 
 This chart displays the volume of data processed per dataset across different pipeline layers.
 
@@ -302,7 +302,7 @@ This is useful for validating pipeline completeness and ensuring data flows corr
 
 ### Error Messages Count by Layer
 
-![Error Messages by Layer](monitor dashboard/Error Messages Count by Layer.png)
+![Error Messages by Layer](monitor_dashboard/Error_Messages_Count_by_Layer.png)
 
 This visualization shows the number of error messages across each pipeline layer (Bronze, Silver, Gold).
 
@@ -314,7 +314,7 @@ A zero value across all layers indicates stable pipeline execution without failu
 
 ### Average Processing Time by Dataset
 
-![Average Processing Time](monitor dashboard/Average Processing Time by Dataset.png)
+![Average Processing Time](monitor_dashboard/Average_Processing_Time_by_Dataset.png)
 
 This chart shows the average processing time (in seconds) for each dataset across pipeline layers.
 
