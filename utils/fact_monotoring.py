@@ -20,7 +20,8 @@ def pipeline_run(
         StructField("layer", StringType(), False),
         StructField("missing_keys", StringType(), False),
         StructField("duplication_check", StringType(), False),
-        StructField("key_null_ratio", StringType(), False)
+        StructField("key_null_ratio", StringType(), False),
+        StructField("created_at", TimestampType(), False)
     ])
 
     data = [(
@@ -30,6 +31,7 @@ def pipeline_run(
         missing_keys,
         duplication_check,
         key_null_ratio,
+        datetime.now()
     )]
 
     spark.createDataFrame(data, schema=schema) \
