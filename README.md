@@ -1,12 +1,79 @@
-# Israeli Transportation Data Lakehouse
+# Israeli Transportation Data Pipeline
 
-## Project Overview
+This project implements an end-to-end Data Engineering pipeline using the Medallion Architecture (Bronze → Silver → Gold) on Databricks.
 
-This project covers the full analytics lifecycle: raw data ingestion, transformation, dimensional modeling, data quality validation, orchestration, and 
+The pipeline ingests transportation data from public APIs, processes it using PySpark, models it into a Star Schema, and provides analytical dashboards and monitoring.
 
-dashboarding in Databricks using public transportation datasets from data.gov.il.
+---
 
-The system follows a Medallion Architecture (Bronze → Silver → Gold) to ingest, clean, and model the data into analytics-ready tables.
+## Project Goal
+
+This project demonstrates a full Data Engineering workflow:
+
+- API data ingestion
+- PySpark transformations
+- Delta Lake storage
+- Star Schema modeling
+- Pipeline monitoring
+- Analytical dashboards
+
+Built as a portfolio project for Data Engineering roles.
+
+---
+
+## Prerequisites
+
+Before running the project, make sure you have:
+
+- Databricks account (Free tier is sufficient)
+- Basic knowledge of Python, SQL, and Spark
+- Git installed
+- Internet connection (for API ingestion)
+
+---
+
+## Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/michaelS1305/transport_il_pipeline.git
+```
+
+2. Upload to Databricks
+   
+3. Go to Workspace
+
+4. Import the project notebooks/files
+
+5. Create a Cluster
+
+Recommended configuration:
+
+Runtime: Latest available
+Node type: Small (Free tier)
+
+6. Attach Notebooks
+
+Attach all notebooks to the cluster before running
+
+---
+### Data Source
+
+Data is fetched from the Israeli Government Open Data platform:
+
+https://data.gov.il
+
+The pipeline pulls multiple transportation datasets using REST APIs.
+
+---
+## Data Volume Considerations
+
+To accommodate the limitations of the Databricks Community Edition, ingestion was capped at ~75K records per dataset.
+
+This approach allowed for reliable pipeline execution while preserving data diversity for analytical use cases.
+
+In a production-grade environment, the pipeline can be scaled to process full datasets using distributed compute and optimized ingestion strategies (e.g., streaming or batch partitioning).
 
 ---
 
@@ -80,43 +147,11 @@ Each fact table enforces a defined grain and was validated using:
 - Row count vs distinct business key checks
 - Foreign key match rate validation
 - Duplicate detection and fan-out join resolution
-
-
 ---
-
-## Data Quality & Validation
-
-- Grain validation (COUNT vs DISTINCT checks)
-- Fan-out join detection and resolution
-- Natural key uniqueness enforcement
-- Foreign key match rate validation
-
----
-
-## Data Volume Considerations
-
-To accommodate the limitations of the Databricks Community Edition, ingestion was capped at ~75K records per dataset.
-
-This approach allowed for reliable pipeline execution while preserving data diversity for analytical use cases.
-
-In a production-grade environment, the pipeline can be scaled to process full datasets using distributed compute and optimized ingestion strategies (e.g., streaming or batch partitioning).
-
----
-
-## Technologies Used
-
-- Databricks
-- PySpark
-- SQL
-- Delta Lake
-- REST API
 
 ## Orchestration
 
 The pipeline is orchestrated using Databricks Jobs with task dependencies between Bronze, Silver, and Gold layers.
-
----
-
 
 ---
 
@@ -326,8 +361,19 @@ It helps identify:
 
 This visualization is useful for performance tuning and understanding pipeline efficiency.
 
+---
+
 ## Future Improvements
 
 - Implement Slowly Changing Dimensions (SCD)
 - Improve automated data quality monitoring
 - Enhance dashboards with Power BI / Tableau integration
+
+---
+
+### Author
+
+Michael Sandrovich
+Aspiring Data Engineer
+
+GitHub: https://github.com/michaelS1305
