@@ -51,6 +51,7 @@ git clone https://github.com/michaelS1305/transport_il_pipeline.git
 Recommended configuration:
 
 Runtime: Latest available
+
 Node type: Small (Free tier)
 
 6. Attach Notebooks
@@ -230,9 +231,6 @@ Displays yearly cancellation rates of public transport in Israel.
 - Measures service reliability over time
 - Identifies years with higher cancellation rates
 - Useful for performance monitoring
-
----
-
 ---
 
 ## Monitoring & Observability
