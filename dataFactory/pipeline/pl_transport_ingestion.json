@@ -24,9 +24,24 @@
 							"supportRFC5988": "true"
 						}
 					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
+					{
+						"referenceName": "ds_data_gov_api",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
 					{
 						"referenceName": "ds_bronze_json",
 						"type": "DatasetReference"
@@ -34,6 +49,12 @@
 				]
 			}
 		],
+		"parameters": {
+			"resource_id1": {
+				"type": "string",
+				"defaultValue": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+			}
+		},
 		"annotations": []
 	}
 }
