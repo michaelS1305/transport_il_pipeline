@@ -1,8 +1,20 @@
 {
 	"name": "ds_bronze_json",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_transport_dev",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "test.json",
+				"folderPath": "bronze/private_vehicles",
+				"fileSystem": "data"
+			}
+		},
 		"schema": {}
 	}
 }
