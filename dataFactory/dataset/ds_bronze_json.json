@@ -5,13 +5,21 @@
 			"referenceName": "ls_adls_transport_dev",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"table_name": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "test.json",
-				"folderPath": "bronze/private_vehicles",
+				"folderPath": {
+					"value": "@concat(\n'bronze/',\ndataset().table_name\n)",
+					"type": "Expression"
+				},
 				"fileSystem": "data"
 			}
 		},
