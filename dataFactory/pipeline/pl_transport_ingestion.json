@@ -38,7 +38,10 @@
 				"inputs": [
 					{
 						"referenceName": "ds_data_gov_api",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"resource_id": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+						}
 					}
 				],
 				"outputs": [
@@ -49,12 +52,6 @@
 				]
 			}
 		],
-		"parameters": {
-			"resource_id1": {
-				"type": "string",
-				"defaultValue": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
-			}
-		},
 		"annotations": []
 	}
 }

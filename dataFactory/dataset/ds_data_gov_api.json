@@ -5,8 +5,17 @@
 			"referenceName": "ls_data_gov_il_rest",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"resource_id": {
+				"type": "String",
+				"defaultValue": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/api/3/action/datastore_search"
+		},
 		"schema": []
 	}
 }
