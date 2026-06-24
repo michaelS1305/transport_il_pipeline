@@ -8,6 +8,9 @@
 		"parameters": {
 			"table_name": {
 				"type": "string"
+			},
+			"file_name": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -15,7 +18,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "test.json",
+				"fileName": "@dataset().file_name",
 				"folderPath": {
 					"value": "@concat(\n'bronze/',\ndataset().table_name\n)",
 					"type": "Expression"
