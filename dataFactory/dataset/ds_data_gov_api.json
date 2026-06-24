@@ -14,7 +14,10 @@
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
-			"relativeUrl": "/api/3/action/datastore_search?resource_id=053cea08-09bc-40ec-8f7a-156f0677aff3"
+			"relativeUrl": {
+				"value": "@concat(\n'/api/3/action/datastore_search?resource_id=',\ndataset().resource_id\n)",
+				"type": "Expression"
+			}
 		},
 		"schema": []
 	}
