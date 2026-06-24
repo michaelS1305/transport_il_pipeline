@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"resource_id_private": {
+			"resource_id": {
 				"type": "String"
 			}
 		},
@@ -14,7 +14,7 @@
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "@concat(\n'/api/3/action/datastore_search?resource_id='\n)",
+				"value": "@concat(\n'/api/3/action/datastore_search?resource_id=',\ndataset().resource_id\n)",
 				"type": "Expression"
 			}
 		},
