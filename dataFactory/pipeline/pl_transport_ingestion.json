@@ -40,7 +40,7 @@
 						"referenceName": "ds_data_gov_api",
 						"type": "DatasetReference",
 						"parameters": {
-							"resource_id1": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
 						}
 					}
 				],
@@ -89,7 +89,7 @@
 						"referenceName": "ds_data_gov_api",
 						"type": "DatasetReference",
 						"parameters": {
-							"resource_id1": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
 						}
 					}
 				],
@@ -138,7 +138,7 @@
 						"referenceName": "ds_data_gov_api",
 						"type": "DatasetReference",
 						"parameters": {
-							"resource_id1": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
 						}
 					}
 				],
@@ -187,7 +187,7 @@
 						"referenceName": "ds_data_gov_api",
 						"type": "DatasetReference",
 						"parameters": {
-							"resource_id1": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
 						}
 					}
 				],

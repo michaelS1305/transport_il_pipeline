@@ -6,20 +6,28 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"resource_id1": {
+			"resource_id_private": {
 				"type": "String",
 				"defaultValue": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
 			},
-			"resource_id2": {
+			"resource_id2_motorcycles": {
 				"type": "string",
 				"defaultValue": "bf9df4e2-d90d-4c0a-a400-19e15af8e95f"
+			},
+			"resource_id3_public": {
+				"type": "string",
+				"defaultValue": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+			},
+			"resource_id4_ev": {
+				"type": "string",
+				"defaultValue": "07421a4e-5b12-4444-9173-5ca297b31f79"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "@concat(\n'/api/3/action/datastore_search?resource_id=',\ndataset().resource_id\n)",
+				"value": "@concat(\n'/api/3/action/datastore_search?resource_id='\n)",
 				"type": "Expression"
 			}
 		},
