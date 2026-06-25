@@ -1,0 +1,204 @@
+{
+	"name": "pl_transport_ingestion",
+	"properties": {
+		"activities": [
+			{
+				"name": "copy_api_to_bronze_private",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_data_gov_api",
+						"type": "DatasetReference",
+						"parameters": {
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_bronze_json",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "copy_api_to_bronze_motorcycle",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_data_gov_api",
+						"type": "DatasetReference",
+						"parameters": {
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_bronze_json",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "copy_api_to_bronze_public",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_data_gov_api",
+						"type": "DatasetReference",
+						"parameters": {
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_bronze_json",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "copy_api_to_bronze_ev",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_data_gov_api",
+						"type": "DatasetReference",
+						"parameters": {
+							"resource_id_private": "cf29862d-ca25-4691-84f6-1be60dcb4a1e"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_bronze_json",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
