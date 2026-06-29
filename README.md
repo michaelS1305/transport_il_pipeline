@@ -2,63 +2,41 @@
 
 This project implements an end-to-end Data Engineering pipeline using the Medallion Architecture (Bronze → Silver → Gold) on Databricks.
 
-The pipeline ingests transportation data from public APIs, processes it using PySpark, models it into a Star Schema, and provides analytical dashboards and monitoring.
+The pipeline ingests transportation data from public APIs, processes and transforms it using PySpark, models it into a Star Schema, and delivers analytical dashboards alongside pipeline monitoring.
 
 ---
 
 ## Project Goal
 
-This project demonstrates a full Data Engineering workflow:
+This project demonstrates an end-to-end Data Engineering workflow, including:
 
-- API data ingestion
-- PySpark transformations
+- Data ingestion from public APIs
+- Medallion Architecture (Bronze → Silver → Gold)
+- Data transformation with PySpark
 - Delta Lake storage
 - Star Schema modeling
-- Pipeline monitoring
+- Pipeline monitoring and logging
 - Analytical dashboards
 
-Built as a portfolio project for Data Engineering roles.
+Built as a portfolio project to demonstrate practical Data Engineering skills using Databricks and Apache Spark.
+
+---
+## Tech Stack
+
+| Category | Technologies |
+|----------|--------------|
+| Programming | Python, SQL |
+| Data Processing | Apache Spark (PySpark) |
+| Platform | Azure Databricks |
+| Data Storage | Delta Lake |
+| Architecture | Medallion Architecture (Bronze → Silver → Gold), Star Schema |
+| Data Source | Public REST APIs (JSON) |
+| Visualization | Databricks SQL Dashboards |
+| Monitoring | Pipeline Logs, Monitoring Tables |
+| Version Control | Git, GitHub |
 
 ---
 
-## Prerequisites
-
-Before running the project, make sure you have:
-
-- Databricks account (Free tier is sufficient)
-- Basic knowledge of Python, SQL, and Spark
-- Git installed
-- Internet connection (for API ingestion)
-
----
-
-## Setup
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/michaelS1305/transport_il_pipeline.git
-```
-
-2. Upload to Databricks
-   
-3. Go to Workspace
-
-4. Import the project notebooks/files
-
-5. Create a Cluster
-
-Recommended configuration:
-
-Runtime: Latest available
-
-Node type: Small (Free tier)
-
-6. Attach Notebooks
-
-Attach all notebooks to the cluster before running
-
----
 ### Data Source
 
 Data is fetched from the Israeli Government Open Data platform:
@@ -85,7 +63,7 @@ In a production-grade environment, the pipeline can be scaled to process full da
 The pipeline is structured into three layers:
 
 ### Bronze
-- Raw ingestion from Ministry of Transport APIs (REST / CSV format)
+- Raw ingestion from Ministry of Transport APIs (REST)
 - Data stored as-is in Delta tables
 
 ### Silver
@@ -152,7 +130,10 @@ Each fact table enforces a defined grain and was validated using:
 
 ## Orchestration
 
-The pipeline is orchestrated using Databricks Jobs with task dependencies between Bronze, Silver, and Gold layers.
+The pipeline is orchestrated using Databricks Jobs, coordinating the execution of multiple notebooks across the Bronze, Silver, and Gold layers. 
+Task dependencies ensure each stage completes successfully before downstream transformations begin.
+
+![databricks_jobs]docs/databricks_jobs.png)
 
 ---
 
@@ -361,17 +342,15 @@ This visualization is useful for performance tuning and understanding pipeline e
 
 ---
 
-## Future Improvements
+## Performance Optimization
 
-- Implement Slowly Changing Dimensions (SCD)
-- Improve automated data quality monitoring
-- Enhance dashboards with Power BI / Tableau integration
+The pipeline was optimized by reducing unnecessary Spark actions, streamlining transformations, and materializing the Gold layer. 
+These improvements reduced the total runtime from **6 minutes 8 seconds** to **3 minutes 40 seconds**, achieving approximately a **40% performance improvement**.
 
 ---
 
 ### Author
 
 Michael Sandrovich
-Aspiring Data Engineer
+Data Engineer
 
-GitHub: https://github.com/michaelS1305
