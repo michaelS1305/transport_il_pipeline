@@ -133,7 +133,7 @@ Each fact table enforces a defined grain and was validated using:
 The pipeline is orchestrated using Databricks Jobs, coordinating the execution of multiple notebooks across the Bronze, Silver, and Gold layers. 
 Task dependencies ensure each stage completes successfully before downstream transformations begin.
 
-![databricks_jobs]docs/databricks_jobs.png)
+![databricks_jobs](docs/databricks_jobs.png)
 
 ---
 
